@@ -12,11 +12,13 @@ public class PlayerController : MonoBehaviour
 	[Header("References")]
     private Rigidbody2D rb;
 	private SquashStretchEffect squashStretchEffect;
+	private WingAnimation wingAnim;
 
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
 		squashStretchEffect = GetComponentInChildren<SquashStretchEffect>();
+		wingAnim = GetComponentInChildren<WingAnimation>();
 		rb.gravityScale = gravityScale;
 	}
 
@@ -25,6 +27,7 @@ public class PlayerController : MonoBehaviour
 		if (FlappyBirdGameManager.i.gameOver) return;
 		rb.velocity = Vector2.up * jumpPower;
 		if (squashStretchEffect != null) StartCoroutine(squashStretchEffect.PlayEffect());
+		if (wingAnim != null) StartCoroutine(wingAnim.FlapProcedural());
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
