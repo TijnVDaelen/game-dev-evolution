@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class FlappyBirdMapManager : MonoBehaviour
 {
-    [Header("Settings")]
+	[Header("Settings")]
+	[SerializeField] private FinishVisualization finishVisualization;
     [SerializeField] private int pipeAmount = 5;
 
 	[Space]
@@ -30,7 +31,15 @@ public class FlappyBirdMapManager : MonoBehaviour
     [SerializeField] private Transform finish;
     [SerializeField] private Transform destroyMapTrigger;
 
-    public void Init()
+	private void Awake()
+	{
+		if (finishVisualization == FinishVisualization.hideWithGap || finishVisualization == FinishVisualization.hideWithoutGap)
+		{
+			finish.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+		}
+	}
+
+	public void Init()
     {
         if (pipeGapX < minPipeGapX) pipeGapX = minPipeGapX;
         if (pipeGapY < minPipeGapY) pipeGapY = minPipeGapY;
@@ -63,10 +72,25 @@ public class FlappyBirdMapManager : MonoBehaviour
 			pipeManager.Init();
 		}
 
-        finish.localPosition = new Vector3(prevPipePos.x + pipeGapX, 0, 20);
         destroyMapTrigger.localPosition = new Vector2((prevPipePos.x + pipeGapX) * 2, 0);
+		MapRespawner mapRespawner = GetComponentInChildren<MapRespawner>();
 
-        MapRespawner mapRespawner = GetComponentInChildren<MapRespawner>();
-        mapRespawner.relativeSpawnLocation = new Vector2(prevPipePos.x + pipeGapX, 0);
+		if (finishVisualization == FinishVisualization.hideWithoutGap)
+		{
+			finish.localPosition = new Vector3(prevPipePos.x, 0, 20);
+			mapRespawner.relativeSpawnLocation = new Vector2(prevPipePos.x, 0);
+		}
+		else
+		{
+			finish.localPosition = new Vector3(prevPipePos.x + pipeGapX, 0, 20);
+			mapRespawner.relativeSpawnLocation = new Vector2(prevPipePos.x + pipeGapX, 0);
+		}
+	}
+
+	public enum FinishVisualization
+	{
+		show,
+		hideWithGap,
+		hideWithoutGap
 	}
 }

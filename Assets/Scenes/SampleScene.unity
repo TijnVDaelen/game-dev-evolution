@@ -2153,7 +2153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0529374d486621e41872e8a28df5a45a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pipeAmount: 10
+  finishVisualization: 0
+  pipeAmount: 3
   pipeGapX: 4
   decreasePipeGapX: 0
   minPipeGapX: 1.5
