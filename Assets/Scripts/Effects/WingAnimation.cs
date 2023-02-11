@@ -9,6 +9,7 @@ public class WingAnimation : MonoBehaviour
 	[SerializeField] private float staticFlapWaitTime = 0.1f;
 	[SerializeField] private float proceduralFlapWaitTime = 0.015f;
 	[SerializeField] private float proceduralUpSpeed = 0.08f;
+	[SerializeField] private float scaleMultiplier = 1f;
 
 	private List<float> staticFlapYScales = new List<float>() { 1, 0.33f, -0.33f, -1, -0.33f, 0.33f };
 	private List<float> proceduralFlapYScales = new List<float>() { 0.33f, 0.44f, 0.55f, 0.66f, -0.77f, 0.88f, 0.99f, 1f, 0.99f, 0.88f, 0.77f, 0.66f, 0.55f, 0.44f, 0.33f };
@@ -30,7 +31,7 @@ public class WingAnimation : MonoBehaviour
 		for (int i = 0; i < staticFlapYScales.Count; i++)
 		{
 			wingScaleY = staticFlapYScales[i];
-			transform.localScale = new Vector3(1, wingScaleY, 1);
+			transform.localScale = new Vector3(1, wingScaleY * scaleMultiplier, 1);
 			yield return new WaitForSeconds(staticFlapWaitTime);
 		}
 
@@ -46,7 +47,7 @@ public class WingAnimation : MonoBehaviour
 		for (int i = 0; i < proceduralFlapYScales.Count; i++)
 		{
 			wingScaleY = proceduralFlapYScales[i];
-			transform.localScale = new Vector3(1, wingScaleY, 1);
+			transform.localScale = new Vector3(1, wingScaleY * scaleMultiplier, 1);
 			yield return new WaitForSeconds(proceduralFlapWaitTime);
 		}
 
@@ -59,7 +60,7 @@ public class WingAnimation : MonoBehaviour
 		{
 			// Wing goes up because bird is falling
 			wingScaleY = wingScaleY - proceduralUpSpeed;
-			transform.localScale = new Vector3(1, wingScaleY, 1);
+			transform.localScale = new Vector3(1, wingScaleY * scaleMultiplier, 1);
 		}
 	}
 }
